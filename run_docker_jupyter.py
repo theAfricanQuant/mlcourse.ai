@@ -1,18 +1,17 @@
 import os
 import argparse
 
-def path(): 
+def path():
 	''' Special case for windows docker toolbox users.'''
 	path = os.getcwd()
-	if os.getenv('DOCKER_TOOLBOX_INSTALL_PATH') is not None:
-		if len(os.environ['DOCKER_TOOLBOX_INSTALL_PATH'])>0:
-			path = path.replace(':', '')
-			path = path.replace('\\\\', '/')
-			path = path.replace('\\', '/')
-			path = path.replace('C', 'c')
-			path = '/'+path
-	else: 
-		path = '"'+path+'"'
+	if os.getenv('DOCKER_TOOLBOX_INSTALL_PATH') is None: 
+		path = f'"{path}"'
+	elif len(os.environ['DOCKER_TOOLBOX_INSTALL_PATH'])>0:
+		path = path.replace(':', '')
+		path = path.replace('\\\\', '/')
+		path = path.replace('\\', '/')
+		path = path.replace('C', 'c')
+		path = f'/{path}'
 	return path
 
 path = path()
